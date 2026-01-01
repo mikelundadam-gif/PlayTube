@@ -1,125 +1,188 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AdamTube</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #fff;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #ff0000;
-            padding: 20px;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-        }
-        .video-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .video-box {
-            margin: 15px;
-            background-color: #1e1e1e;
-            padding: 10px;
-            border-radius: 10px;
-            width: 320px;
-        }
-        video {
-            width: 100%;
-            border-radius: 5px;
-        }
-        h2 {
-            font-size: 1.2em;
-            margin: 10px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdamTube</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Roboto, Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px 20px;
+      background-color: #202020;
+      border-bottom: 1px solid #303030;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4em;
+      color: #ff0000;
+    }
+
+    .search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search input {
+      width: 60%;
+      max-width: 500px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      background-color: #121212;
+      color: #fff;
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    aside {
+      width: 220px;
+      background-color: #181818;
+      border-right: 1px solid #303030;
+      padding: 15px 0;
+    }
+
+    aside div {
+      padding: 12px 24px;
+      font-size: 0.95em;
+      color: #ddd;
+      cursor: pointer;
+    }
+
+    aside div:hover {
+      background-color: #303030;
+    }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      padding: 25px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      background-color: transparent;
+    }
+
+    .video-card video {
+      width: 100%;
+      border-radius: 12px;
+      background-color: #000;
+    }
+
+    .video-info {
+      padding-top: 8px;
+    }
+
+    .video-info h2 {
+      font-size: 0.95em;
+      margin: 0 0 4px 0;
+      font-weight: 500;
+    }
+
+    .video-info p {
+      margin: 0;
+      font-size: 0.8em;
+      color: #aaa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.8em;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>AdamTube</h1>
-    </header>
 
-    <div class="video-container">
-        <div class="video-box">
-            <video controls>
-                <source src="video1.mp4" type="video/mp4">
-            </video>
-            <h2>Video 1</h2>
-        </div>
+<header>
+  <h1>AdamTube</h1>
+  <div class="search">
+    <input type="text" placeholder="Suchen" />
+  </div>
+</header>
 
-        <div class="video-box">
-            <video controls>
-                <source src="video2.mp4" type="video/mp4">
-            </video>
-            <h2>Video 2</h2>
-        </div>
+<div class="layout">
+  <aside>
+    <div onclick="filterVideos('all')">🏠 Startseite</div>
+    <div onclick="filterVideos('video')">▶ Videos</div>
+    <div onclick="filterVideos('trend')">🔥 Trends</div>
+    <div onclick="filterVideos('fav')">⭐ Favoriten</div>
+  </aside>
 
-        <div class="video-box">
-            <video controls>
-                <source src="video3.mp4" type="video/mp4">
-            </video>
-            <h2>Video 3</h2>
-        </div>
+  <main>
+    <div class="video-grid">
+      
+      <!-- 20 VIDEO -->
+      
+      <div class="video-card" data-category="trend"><video controls src="video1.mp4"></video><div class="video-info"><h2>Böller, die Bombe!</h2><p>AdamTube • Trend</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video2.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 1: Coole Böller</h2><p>AdamTube • 980 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video3.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 2: Fliegende Böller angezündet</h2><p>AdamTube • 2k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video4.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 3: Wunderkerzen</h2><p>AdamTube • 870 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video5.mp4"></video><div class="video-info"><h2>Video 5</h2><p>AdamTube • 3k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video6.mp4"></video><div class="video-info"><h2>Video 6</h2><p>AdamTube • 1.1k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video7.mp4"></video><div class="video-info"><h2>Video 7</h2><p>AdamTube • 640 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video8.mp4"></video><div class="video-info"><h2>Video 8</h2><p>AdamTube • 900 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video9.mp4"></video><div class="video-info"><h2>Video 9</h2><p>AdamTube • 4k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video10.mp4"></video><div class="video-info"><h2>Video 10</h2><p>AdamTube • 2.5k Aufrufe</p></div></div>
 
-        <div class="video-box">
-            <video controls>
-                <source src="video4.mp4" type="video/mp4">
-            </video>
-            <h2>Video 4</h2>
-        </div>
+      <div class="video-card" data-category="video"><video controls src="video11.mp4"></video><div class="video-info"><h2>Video 11</h2><p>AdamTube • 1k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video12.mp4"></video><div class="video-info"><h2>Video 12</h2><p>AdamTube • 760 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video13.mp4"></video><div class="video-info"><h2>Video 13</h2><p>AdamTube • 890 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video14.mp4"></video><div class="video-info"><h2>Video 14</h2><p>AdamTube • 3.3k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video15.mp4"></video><div class="video-info"><h2>Video 15</h2><p>AdamTube • 520 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video16.mp4"></video><div class="video-info"><h2>Video 16</h2><p>AdamTube • 1.8k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video17.mp4"></video><div class="video-info"><h2>Video 17</h2><p>AdamTube • 690 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video18.mp4"></video><div class="video-info"><h2>Video 18</h2><p>AdamTube • 2.2k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video19.mp4"></video><div class="video-info"><h2>Video 19</h2><p>AdamTube • 410 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video20.mp4"></video><div class="video-info"><h2>Video 20</h2><p>AdamTube • 5k Aufrufe</p></div></div>
 
-        <div class="video-box">
-            <video controls>
-                <source src="video5.mp4" type="video/mp4">
-            </video>
-            <h2>Video 5</h2>
-        </div>
-
-        <div class="video-box">
-            <video controls>
-                <source src="video6.mp4" type="video/mp4">
-            </video>
-            <h2>Video 6</h2>
-        </div>
-
-        <div class="video-box">
-            <video controls>
-                <source src="video7.mp4" type="video/mp4">
-            </video>
-            <h2>Video 7</h2>
-        </div>
-
-        <div class="video-box">
-            <video controls>
-                <source src="video8.mp4" type="video/mp4">
-            </video>
-            <h2>Video 8</h2>
-        </div>
-
-        <div class="video-box">
-            <video controls>
-                <source src="video9.mp4" type="video/mp4">
-            </video>
-            <h2>Video 9</h2>
-        </div>
-
-        <div class="video-box">
-            <video controls>
-                <source src="video10.mp4" type="video/mp4">
-            </video>
-            <h2>Video 10</h2>
-        </div>
     </div>
+  </main>
+</div>
+
+<footer>
+  © 2026 AdamTube
+</footer>
+
+<script>
+  function filterVideos(category) {
+    const videos = document.querySelectorAll('.video-card');
+    videos.forEach(v => {
+      if (category === 'all') {
+        v.style.display = 'block';
+      } else if (v.dataset.category === category) {
+        v.style.display = 'block';
+      } else {
+        v.style.display = 'none';
+      }
+    });
+  }
+</script>
 </body>
 </html>
-
