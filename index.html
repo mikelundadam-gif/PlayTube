@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AdamTube</title>
   <style>
     body {
@@ -19,7 +19,7 @@
       z-index: 100;
       display: flex;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
       padding: 10px 20px;
       background-color: #202020;
       border-bottom: 1px solid #303030;
@@ -27,14 +27,8 @@
 
     header h1 {
       margin: 0;
-      font-size: 1.4em;
+      font-size: 1.6em;
       color: #ff0000;
-    }
-
-    .search {
-      flex: 1;
-      display: flex;
-      justify-content: center;
     }
 
     .search input {
@@ -46,6 +40,20 @@
       outline: none;
       background-color: #121212;
       color: #fff;
+    }
+
+    .upload-btn {
+      background-color: #ff0000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .upload-btn:hover {
+      background-color: #cc0000;
     }
 
     /* LAYOUT */
@@ -66,8 +74,8 @@
       font-size: 0.95em;
       color: #ddd;
       cursor: pointer;
+      transition: background 0.2s;
     }
-
     aside div:hover {
       background-color: #303030;
     }
@@ -85,21 +93,28 @@
     }
 
     .video-card {
-      background-color: transparent;
+      background-color: #181818;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(255,0,0,0.5);
     }
 
     .video-card video {
       width: 100%;
-      border-radius: 12px;
       background-color: #000;
     }
 
     .video-info {
-      padding-top: 8px;
+      padding: 8px 12px;
     }
 
     .video-info h2 {
-      font-size: 0.95em;
+      font-size: 1em;
       margin: 0 0 4px 0;
       font-weight: 500;
     }
@@ -115,6 +130,40 @@
       padding: 20px;
       font-size: 0.8em;
       color: #777;
+      border-top: 1px solid #303030;
+    }
+
+    /* UPLOAD MODAL */
+    #uploadTutorial {
+      display: none;
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.9);
+      color:#fff;
+      z-index:999;
+      justify-content:center;
+      align-items:center;
+    }
+
+    #uploadTutorialContent {
+      background:#202020;
+      padding:30px;
+      border-radius:12px;
+      max-width:500px;
+      text-align:left;
+      position:relative;
+    }
+
+    #uploadTutorialContent span.close {
+      position:absolute;
+      top:10px;
+      right:15px;
+      cursor:pointer;
+      font-size:20px;
+    }
+
+    #uploadTutorialContent a {
+      color:#ff0000;
     }
   </style>
 </head>
@@ -122,9 +171,10 @@
 
 <header>
   <h1>AdamTube</h1>
-  <div class="search">
-    <input type="text" placeholder="Suchen" />
-  </div>
+  <input type="text" placeholder="Suchen" id="searchInput">
+  <button class="upload-btn" onclick="showUploadTutorial()">
+    📤 Upload
+  </button>
 </header>
 
 <div class="layout">
@@ -137,20 +187,18 @@
 
   <main>
     <div class="video-grid">
-      
-      <!-- 20 VIDEO -->
-      
+
+      <!-- 20 Video-Karten -->
       <div class="video-card" data-category="trend"><video controls src="video1.mp4"></video><div class="video-info"><h2>Böller, die Bombe!</h2><p>AdamTube • Trend</p></div></div>
-      <div class="video-card" data-category="video"><video controls src="video2.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 1: Coole Böller</h2><p>AdamTube • 980 Aufrufe</p></div></div>
-      <div class="video-card" data-category="video"><video controls src="video3.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 2: Fliegende Böller angezündet</h2><p>AdamTube • 2k Aufrufe</p></div></div>
-      <div class="video-card" data-category="video"><video controls src="video4.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet an Silvester – Part 3: Wunderkerzen</h2><p>AdamTube • 870 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video2.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet – Part 1</h2><p>AdamTube • 980 Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video3.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet – Part 2</h2><p>AdamTube • 2k Aufrufe</p></div></div>
+      <div class="video-card" data-category="video"><video controls src="video4.mp4"></video><div class="video-info"><h2>Coole Kids Test Packet – Part 3</h2><p>AdamTube • 870 Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video5.mp4"></video><div class="video-info"><h2>Video 5</h2><p>AdamTube • 3k Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video6.mp4"></video><div class="video-info"><h2>Video 6</h2><p>AdamTube • 1.1k Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video7.mp4"></video><div class="video-info"><h2>Video 7</h2><p>AdamTube • 640 Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video8.mp4"></video><div class="video-info"><h2>Video 8</h2><p>AdamTube • 900 Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video9.mp4"></video><div class="video-info"><h2>Video 9</h2><p>AdamTube • 4k Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video10.mp4"></video><div class="video-info"><h2>Video 10</h2><p>AdamTube • 2.5k Aufrufe</p></div></div>
-
       <div class="video-card" data-category="video"><video controls src="video11.mp4"></video><div class="video-info"><h2>Video 11</h2><p>AdamTube • 1k Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video12.mp4"></video><div class="video-info"><h2>Video 12</h2><p>AdamTube • 760 Aufrufe</p></div></div>
       <div class="video-card" data-category="video"><video controls src="video13.mp4"></video><div class="video-info"><h2>Video 13</h2><p>AdamTube • 890 Aufrufe</p></div></div>
@@ -170,19 +218,62 @@
   © 2026 AdamTube
 </footer>
 
+<!-- UPLOAD TUTORIAL MODAL -->
+<div id="uploadTutorial">
+  <div id="uploadTutorialContent">
+    <span class="close" onclick="closeUploadTutorial()">✖</span>
+    <h2>📤 Upload Anleitung</h2>
+    <ol>
+      <li>Schreibe eine Email an: <b>mikelundadam@gmail.com</b></li>
+      <li>Füge dein Video als Anhang hinzu</li>
+      <li>Regeln für das Video:</li>
+      <ul>
+        <li>Länge maximal: 4 Minuten 21 Sekunden</li>
+        <li>Passender Inhalt (keine Gewalt oder Spam)</li>
+      </ul>
+      <li>Klicke auf folgenden Link, um Gmail zu öffnen: <a href="https://mail.google.com/mail/u/0/#sent?compose=new/" target="_blank">Gmail.com</a></li>
+    </ol>
+    <p>Viel Spaß beim Hochladen! 🚀</p>
+  </div>
+</div>
+
 <script>
+  // Filter-Funktion
   function filterVideos(category) {
     const videos = document.querySelectorAll('.video-card');
     videos.forEach(v => {
-      if (category === 'all') {
-        v.style.display = 'block';
-      } else if (v.dataset.category === category) {
+      if(category === 'all' || v.dataset.category === category) {
         v.style.display = 'block';
       } else {
         v.style.display = 'none';
       }
     });
   }
+
+  // Suche live
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const videos = document.querySelectorAll('.video-card');
+    videos.forEach(v => {
+      const title = v.querySelector('h2').textContent.toLowerCase();
+      if(title.includes(query)) {
+        v.style.display = 'block';
+      } else {
+        v.style.display = 'none';
+      }
+    });
+  });
+
+  // Upload Tutorial
+  function showUploadTutorial() {
+    document.getElementById('uploadTutorial').style.display = 'flex';
+  }
+  function closeUploadTutorial() {
+    document.getElementById('uploadTutorial').style.display = 'none';
+  }
 </script>
+
 </body>
 </html>
+
